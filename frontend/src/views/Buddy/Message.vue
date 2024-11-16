@@ -1,68 +1,3 @@
-<!-- <script setup>
-import { ref, onMounted, computed, watch, nextTick , reactive} from 'vue';
-import { MagnifyingGlassIcon, PaperAirplaneIcon, PaperClipIcon } from "@heroicons/vue/20/solid";
-import axios from 'axios';
-import { io } from 'socket.io-client';
-
-import default_avatar from '@/assets/images/buddy_default.jpg'
-
-const showNewMessage = ref(false);
-const newMessage = ref('');
-const uploadedFile = ref(null);
-const searchTerm = ref('');
-const isModalVisible = ref(false);
-const selectedUser = ref('');
-const users = ['June Cyril Dolendo', 'afdsafsdafsda', 'afsdafas', 'afsdafsa', 'CAPSTONE : UI | FURSAFE', 'afdsafsad', 'weqrewqrewq', 'zvxczvzvz'];
-const filteredUsers = ref([]);
-const messages = reactive([]);
-
-function toggleModal() {
-  isModalVisible.value = !isModalVisible.value;
-}
-
-function toggleNewMessage() {
-  showNewMessage.value = !showNewMessage.value;
-}
-
-function sendMessage() {
-  if (newMessage.value.trim() || uploadedFile.value) {
-    const message = {
-      text: newMessage.value.trim(),
-      photo: uploadedFile.value ? URL.createObjectURL(uploadedFile.value) : null,
-      isSent: true,
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
-    messages.push(message);
-    newMessage.value = '';
-    uploadedFile.value = null;
-  }
-}
-
-function handleFileUpload(event) {
-  uploadedFile.value = event.target.files[0];
-}
-
-function triggerFileInput() {
-  document.getElementById('fileInput').click();
-}
-
-function filterUsers() {
-  filteredUsers.value = users.filter(user => user.toLowerCase().includes(searchTerm.value.toLowerCase()));
-}
-
-function selectUser(user) {
-  searchTerm.value = user;
-  filteredUsers.value = [];
-}
-
-function startChat() {
-  if (selectedUser.value) {
-    console.log(`Starting chat with ${selectedUser.value}`);
-    toggleModal();
-  }
-}
-</script> -->
-
 <script setup>
 import { ref, onMounted, computed, watch, nextTick } from 'vue';
 import { MagnifyingGlassIcon, PaperAirplaneIcon, PaperClipIcon } from "@heroicons/vue/20/solid";
@@ -70,6 +5,7 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 
 import default_avatar from '@/assets/images/buddy_default.jpg'
+import viewpostimagepreview from '@/components/Buddy/buddy_Home_ImagePreviewModal.vue';
 
 // Reactive user ID
 const user_id = ref(localStorage.getItem('u_id'));
@@ -103,13 +39,21 @@ const socket = io('http://localhost:5000');
 socket.on('connect', () => {
 });
 socket.on('receive-message', (messageData) => {
-  if (messageData.chat_id == selectedChat_id.value) {
-    // Append to current conversation
+  if (messageData.chat_id === selectedChat_id.value) {
+    // Push the message to the array
     selectedConversation.value.messages.push(messageData);
+
+    // Sort messages by date
+    selectedConversation.value.messages.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    // Update lastMessageDate for sorting purposes
     selectedConversation.value.lastMessageDate = new Date(messageData.date);
-    scrollToBottom();
+
+    scrollToBottom(); // Scroll to bottom after sorting
+    refreshonsend()
   }
   updateConversationsList(messageData);
+
 });
 
 // Fetch all conversations
@@ -227,72 +171,37 @@ const selectConversation = async (conversation) => {
 };
 //check here
 async function sendMessage(thisformData) {
-  // for (let pair of thisformData.entries()) {
-  //     console.log("send message", pair[0], pair[1]);
-  // }
-  if (!newMessage.value) {
-    newMessage.value = null;
-  }
-
-  // Ensure a chat ID is selected
-  if (!selectedChat_id.value) {
-    createNewMessage(); // Await the creation of a new chat
-    // After creating a new chat, selectedChat_id should be set
-  }
-
-  // Proceed to send the message
   try {
     const response = await axios.post("http://localhost:5000/sendmessage", thisformData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+      headers: { 'Content-Type': 'multipart/form-data' }
     });
-    console.log("under response", response.data);
-    if (response.data.success) { // true
-      createConversation.value = false;
 
-      url.value = response.data.url;
-
-      // console.log(selectedChat_id.value) 45 (new chat id jd)
+    if (response.data.success) {
       let messageData = {
         chat_id: selectedChat_id.value,
         user_id: parseInt(user_id.value),
         message: newMessage.value,
-        // photo_url: url.value.join(','), // Changed from 'url' to 'photo_url' and removed space after comma
         date: new Date().toISOString(),
         sender_name: userFullName,
         p1_name: userFullName,
-        p2_name: receiverName.value // Ensure receiverName is set
+        p2_name: receiverName.value
       };
 
-      const date = new Date(messageData.date);
-      const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, '0')}-` +
-        `${date.getDate().toString().padStart(2, '0')}-` +
-        `${date.getFullYear()} ` +
-        `${date.getHours().toString().padStart(2, '0')}:` +
-        `${date.getMinutes().toString().padStart(2, '0')}`;
+      selectedConversation.value.messages.push(messageData);
 
-      const formattedMessageData = {
-        ...messageData,
-        date: formattedDate
-      };
+      // Sort messages by date after adding the new one
+      selectedConversation.value.messages.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-      // Update local messages for the sender
-      selectedConversation.value.messages.push({
-        ...formattedMessageData,
-        date: new Date(formattedMessageData.date)
-      });
+      selectedConversation.value.lastMessageDate = new Date(messageData.date);
+      updateConversationsList(messageData);
 
-      selectedConversation.value.lastMessageDate = new Date(formattedMessageData.date);
-
-      updateConversationsList(formattedMessageData);
-      selectConversation(messageData)
       // Emit the message to the receiver
-      socket.emit('send-message', formattedMessageData); // Emit the message to the receiver
+      socket.emit('send-message', messageData);
 
       newMessage.value = ''; // Clear the input field
       files.value = [];
-      scrollToBottom(); // Scroll after sending a new message
+      scrollToBottom(); // Scroll after sorting
+      refreshonsend()
     } else {
       console.error("Failed to send message:", response.data.message);
     }
@@ -381,6 +290,8 @@ const getUserFullName = async () => {
     console.log("Error fetching user full name:", err);
   }
 };
+
+
 
 //------------------------------------ this image
 const fileInput = ref(null);
@@ -525,7 +436,9 @@ function closeNewMessage() {
   receiverName.value = null
   receiverId.value = null
 }
-
+async function refreshonsend() {
+  await fetchInbox()
+}
 // Watchers
 watch(sortedMessages, () => {
   scrollToBottom();
@@ -617,6 +530,10 @@ onMounted(async () => {
               <div v-if="conversation.user_id == user_id">
                 <p class="text-sm truncate">You: {{ conversation.message }}</p>
               </div>
+              <div v-else-if="conversation.user_id == null">
+                <p class="text-sm truncate">{{
+                  conversation.message }}</p>
+              </div>
               <div v-else>
                 <p class="text-sm truncate">{{ conversation.other_participant_name }}: {{
                   conversation.message }}</p>
@@ -655,6 +572,14 @@ onMounted(async () => {
             </div>
           </div>
 
+          <!-- Incomming message sent by the system -->
+          <div v-else-if="message.user_id == null" class="flex justify-center mb-2">
+            <div class="text-sm text-gray-600 p-3">
+              <div class="">
+                <p>{{ message.message }} </p>
+              </div>
+            </div>
+          </div>
 
           <div v-else class="flex justify-start mb-2">
             <div class="text-sm text-gray-600 p-3">
@@ -684,7 +609,8 @@ onMounted(async () => {
               class="w-full px-6 py-6 outline-none resize-none" />
           </div> -->
           <div>
-            <input type="file" accept="image/*" ref="fileInput" multiple class="hidden" @change="handleMultipleFileChange" />
+            <input type="file" accept="image/*" ref="fileInput" multiple class="hidden"
+              @change="handleMultipleFileChange" />
             <PaperClipIcon class="h-7 w-7 text-gray-400" aria-hidden="true" @click="triggerFileInput" />
           </div>
           <input type="text" v-model="newMessage" placeholder="Type your message..."

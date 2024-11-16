@@ -2,7 +2,8 @@
 import { ref, onMounted } from 'vue';
 import axios from "axios"
 import { ChatBubbleLeftRightIcon, UserCircleIcon } from "@heroicons/vue/24/outline";
-import { IdentificationIcon, InformationCircleIcon } from '@heroicons/vue/24/solid'
+import { InformationCircleIcon } from '@heroicons/vue/24/solid'
+import { MapPinIcon } from '@heroicons/vue/24/outline'
 
 import viewshelterpostdetials from '@/components/Buddy/buddy_Home_ViewdetailsModal.vue';
 import viewbuddypostdetials from '@/components/Shelter/shelter_RescueOp_ReportViewdetailsModal.vue';
@@ -64,7 +65,7 @@ onMounted(async () => {
 
 <template>
     <div v-for="post in posts" :key="post.post_id"
-        class="sm:w-[90%] md:w-[80%] lg:w-[70%] xl:w-[70%] h-fit mb-4 mx-auto bg-white py-2 px-4  rounded-xl">
+        class="md:container sm:w-full md:w-[80%] lg:w-[70%] xl:w-[52rem] h-fit mb-4 mx-auto bg-white py-2 px-4  rounded-xl">
         <div class="px-[.5rem] py-[10px] flex gap-x-2 items-center">
             <div>
                 <img :src="post.profile || default_avatar" alt="profile"
@@ -88,15 +89,15 @@ onMounted(async () => {
             }">{{ post.post_type }}</span>
         </div>
 
-        <div class="w-full h-fit rounded-xl bg-black flex flex-col items-center relative group">
+        <div class="w-full h-fit rounded-2xl bg-white  flex flex-col items-center relative group">
             <div v-if="post.post_type == 'Adoption'">
                 <img @click="toggleModalViewDetails(post.post_id)"
-                    class="mx-auto flex-shrink-0 w-[50rem] h-[30rem] object-cover rounded-xl  cursor-pointer"
+                    class="mx-auto flex-shrink-0 w-[50rem] sm:h-[35rem] md:h-[40rem] rounded-2xl object-cover cursor-pointer"
                     :src="post.photos[0]" alt="image post" />
             </div>
             <div v-else>
                 <img @click="toggleModalViewDetails(post.post_id)"
-                    class="mx-auto flex-shrink-0 w-[50rem] h-[30rem] object-cover rounded-xl  cursor-pointer"
+                    class="mx-auto flex-shrink-0 w-[50rem] sm:h-[35rem] md:h-[40rem] rounded-2xl object-cover cursor-pointer"
                     :src="post.photos[0]" alt="image post" />
             </div>
 
@@ -111,8 +112,8 @@ onMounted(async () => {
                         <InformationCircleIcon class="sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-gray-100 hover:text-white" />
                     </button>
                     <div v-if="post.post_type == 'Adoption'">
-                        <viewshelterpostdetials v-if="selectedPostViewDetailsId === post.post_id" :selectedPostDetails="selectedPostDetails"
-                            @close="toggleModalViewDetails(post.post_id)" /> 
+                        <viewshelterpostdetials v-if="selectedPostViewDetailsId === post.post_id"
+                            :selectedPostDetails="selectedPostDetails" @close="toggleModalViewDetails(post.post_id)" />
                     </div>
                     <div v-else>
                         <viewbuddypostdetials v-if="selectedPostViewDetailsId === post.post_id"
@@ -145,15 +146,15 @@ onMounted(async () => {
         <div class="px-[.5rem] py-[.5rem] flex flex-col gap-y-2 items-start bg-gray-100 bg-opacity-0 border-t">
             <div class="py-2">
                 <p v-if="post.post_type != 'Adoption'">
-                    <i class="text-xs">
-                        <b>Location:</b>
-                        {{ post.report_address_location }}
+                    <i class="text-xs font-semibold grid grid-cols-[20px_1fr] gap-x-1 items-start mb-2">
+                        <MapPinIcon class="sm:h-5 sm:w-5 md:h-4 md:w-4 text-gray-700" />
+                        <p>{{ post.report_address_location }}</p>
                     </i>
                 </p>
-                <p class="sm:text-sm md:text-base font-medium text-gray-700">
+                <div class="sm:text-sm md:text-base font-medium text-gray-700">
                     <b class="pr-2">{{ post.posted_by }}</b>
                     {{ post.content }}
-                </p>
+                </div>
 
             </div>
         </div>

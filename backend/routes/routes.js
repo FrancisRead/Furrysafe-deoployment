@@ -43,6 +43,7 @@ import {
   insertShelterRescue,
   insertShelterEvent,
   getongoingoperation,
+  getrescuedhistory,
   setConfirmRescued,
   setCancelOperation
 } from "../controllers/shelter_functions.js";
@@ -112,7 +113,7 @@ router.post("/save_pet_profile", upload2.any(), insertPetProfile);
 router.post("/update_pet_profile", upload2.any(), updatePetProfile);
 
 // Nov5 start of salpocial's new code
-router.post("/insertshelterpost", upload2.any(), insertShelterPost);  //New route for shelter post
+// router.post("/insertshelterpost", upload2.any(), insertShelterPost);  //New route for shelter post
 router.post("/accept-report", insertShelterRescue); // New route for rescue operations
 router.post("/create-event", upload2.any(), insertShelterEvent); // new route for shelter event
 // Nov5 end of salpocial's new code
@@ -140,7 +141,8 @@ router.post("/getbuddypost", upload2.any(), getBuddyPost)
 router.post("/getereports", getReports) 
 router.post("/insertshelterpost", upload2.any(), insertShelterPost);  //New route for shelter post
 router.post("/getevents", upload2.any(), getEvents);  
-router.post("/getongoingoperations", upload2.any(), getongoingoperation);  
+router.post("/getongoingoperations", upload2.any(), getongoingoperation); 
+router.post("/getrescuedhistory", upload2.any(), getrescuedhistory); 
 router.post("/confirmRescue", upload2.any(), setConfirmRescued);  
 router.post("/cancelOperation", upload2.any(), setCancelOperation);  
 

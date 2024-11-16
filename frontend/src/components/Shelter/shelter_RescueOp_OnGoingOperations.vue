@@ -19,6 +19,8 @@ const toggleModalViewDetails = (id) => {
     if (foundPost) {
         selectedPostDetails.value = foundPost
         console.log("found post", selectedPostDetails.value)
+    } else { // Nov12 added else
+        console.error("Post not found for ID:", id);
     }
 };
 const handleStatusUpdate = () => {
@@ -37,7 +39,7 @@ async function retrieveReports() {
         console.log("retrieveReports")
         const response = await axios.post(`${API_BASE_URL}/getongoingoperations`, {
             _shelter_id: _shelter_id,
-            _status: 'Pending'
+            _status: 'In progress' // Nov12 'Pending' change to 'In progress' 
         });
 
         if (response.data && response.data.length > 0) {
@@ -100,7 +102,7 @@ onMounted(async () => {
 
             </div>
             <div>
-                <statusbuttons :postId="report.post_id" @statusUpdated="handleStatusUpdate"/>
+                <statusbuttons :reportedUserId="report.user_id" :postId="report.post_id" @statusUpdated="handleStatusUpdate" />
             </div>
         </div>
     </div>
