@@ -78,127 +78,112 @@
     </section>
 </template>
 
-<script>
-import axios from "axios"; // Import axios for HTTP requests
-import passwordunhide from "../components/passwordHide.vue"; // Import password unhide component
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from "axios";
+import passwordunhide from "../components/passwordHide.vue";
 
-export default {
-    name: 'LoginShelter',
-    components: { passwordunhide }, // Register the password unhide component
-    data() {
-        return {
-            loginEmail: '',
-            loginPassword: '',
-            signupPassword: '', // New data property for sign-up password
-            isSignUp: false, // New data property to toggle forms
-            usageType: '',
-            usageType2: '', // New data property to store usage selection
-            dog: require('@/assets/images/animalshelterdog.png'), // New data property for dog image
-            passwordError: false, // New data property for password error state
-            showPassword: false, // New data property for showing password
-            userEmail: '', // New data property for user email
-            userPassword: '', // New data property for user password
-            items: [], // New data property for storing response items
-        };
-    },
-    methods: {
-        handleLoginSubmit() {
-            // Handle login form submission
-        },
-        handleSignUpSubmit() {
-            // Handle sign-up form submission
-        },
-        toggleForm() {
-            this.isSignUp = !this.isSignUp; // Toggle between login and sign-up
-        },
-        goToRegis() {
-            this.$router.push({ name: "buddy_registration" }); // Navigate to Regis.vue
-        },
-        goToRegis2() {
-            this.$router.push({ name: "shelter_registration" }); // Navigate to Regis.vue
-        },
-        // createWorkspace() {
-        //     if (this.usageType || this.usageType2) { // Check if either usage type is selected
-        //         if (this.usageType) {
-        //             this.$router.push({ name: "buddy_registration" }); // Navigate to Regis.vue
-        //         } else if (this.usageType2) {
-        //             this.$router.push({ name: "shelter_registration" }); // Navigate to Regisshel.vue
-        //         }
-        //     } else {
-        //         alert('Please select a usage type before creating a workspace.'); // Alert if no selection
-        //     }
-        // },
-        // selectUsage(type) {
-        //     this.usageType = this.usageType === type ? '' : type; // Toggle selection for Buddy
-        //     this.usageType2 = ''; // Clear Shelter selection
-        // },
-        // selectUsage2(type2) {
-        //     this.usageType2 = this.usageType2 === type2 ? '' : type2; // Toggle selection for Shelter
-        //     this.usageType = ''; // Clear Buddy selection
-        // },
-        navigateTo(path) {
-            this.$router.push(path); // Method to navigate to a different route
-        },
-        async handleLogin() {
-            try {
-                // Retrieve input from email & password textboxes
-                const UserEmail = document.getElementById('email');
-                const UserPassword = document.getElementById('password');
-                this.userEmail = UserEmail.value; // Get email value
-                this.userPassword = UserPassword.value; // Get password value
+const API_BASE_URL = 'https://capstone-furrysafe-deployment.onrender.com';
+const router = useRouter();
 
-                await this.getUser(); // Call getUser method
-            } catch (err) {
-                console.log(err); // Log any errors
-            }
-        },
-        async getUser() {
-            try {
-                const response = await axios.post("http://localhost:5000/login", {
-                    email: this.userEmail,
-                    password: this.userPassword
-                }, {
-                    withCredentials: true // Include cookies in the request
-                });
+console.log("login function:)");
 
-                this.items = response.data; // Store response data
-                console.log("login", response.data);
+// Icons or images
+const dog = require('@/assets/images/animalshelterdog.png');
 
-                // Store tokens and user information in localStorage
-                localStorage.setItem("access_token", this.items.token);
-                localStorage.setItem("u_type", this.items.userType);
-                localStorage.setItem("u_id", this.items.userID);
-                localStorage.setItem("c_id", this.items.characterId);
-                localStorage.setItem("address_exists", this.items.address_exists);
+// State variables
+const loginEmail = ref('');
+const loginPassword = ref('');
+const signupPassword = ref('');
+const isSignUp = ref(false);
+const usageType = ref('');
+const usageType2 = ref('');
+const passwordError = ref(false);
+const showPassword = ref(false);
+const userEmail = ref('');
+const userPassword = ref('');
+const items = ref([]);
+const loginError = ref(''); // Store login error messages
 
-                // Navigate based on user type
-                if (response.data.success) {
-                    const userType = response.data.userType;
-                    if (userType === 'shelter') {
-                        this.navigateTo('/shelterDashboard');
-                    } else if (userType === 'buddy') {
-                        this.navigateTo('/buddydashboard'); // Need UI
-                    } else if (userType === 'admin') {
-                        this.navigateTo('/dashboard');
-                    }
-                } else {
-                    if (response.status === 403 && response.data.message === 'Shelter is not verified') {
-                        console.log('Shelter is not verified. Please verify your shelter documents.');
-                    }
-                    console.log("Invalid login credentials");
-                }
+// Methods
+const toggleForm = () => {
+    isSignUp.value = !isSignUp.value;
+};
 
-            } catch (err) {
-                if (err.response) {
-                    console.log("Error Response Data??:", err.response.data);
-                    console.log("Status Code:", err.response.status);
-                } else {
-                    console.log("An ERROR occurred:", err.message);
-                }
-            }
-        },
+const navigateTo = (path) => {
+    router.push(path);
+};
+
+const handleLogin = async () => {
+    try {
+        await getUser();
+    } catch (err) {
+        console.log(err);
     }
-}
+};
+
+const getUser = async () => {
+    try {
+        console.log("login")
+        const response = await axios.post(`${API_BASE_URL}/login`, {
+            email: userEmail.value,
+            password: userPassword.value
+        }, {
+            withCredentials: true // Include cookies if needed
+        });
+
+        items.value = response.data;
+        console.log("login", response.data);
+
+        // Save tokens and user data to localStorage
+        localStorage.setItem("access_token", items.value.token);
+        localStorage.setItem("u_type", items.value.userType);
+        localStorage.setItem("u_id", items.value.userID);
+        localStorage.setItem("c_id", items.value.characterId);
+        localStorage.setItem("address_exists", items.value.address_exists);
+
+        // Redirect based on user type
+        if (response.data.success) {
+            const userType = response.data.userType;
+            if (userType === 'shelter') {
+                navigateTo('/shelterDashboard');
+            } else if (userType === 'buddy') {
+                navigateTo('/buddydashboard');
+            } else if (userType === 'admin') {
+                navigateTo('/dashboard');
+            }
+        } else {
+            loginError.value = response.data.message || "Invalid login credentials";
+            if (response.status === 403 && response.data.message === 'Shelter is not verified') {
+                console.log('Shelter is not verified. Please verify your shelter documents.');
+            }
+        }
+
+    } catch (err) {
+        if (err.response) {
+            console.log("Error Response Data:", err.response.data);
+            console.log("Status Code:", err.response.status);
+            loginError.value = err.response.data.message || "Login failed due to server error";
+        } else {
+            console.log("An ERROR occurred:", err.message);
+            loginError.value = "An unexpected error occurred";
+        }
+    }
+};
+
+const handleSignUpSubmit = () => {
+    // Placeholder for sign-up logic
+    console.log("Sign up submitted");
+};
+
+const goToRegis = () => {
+    navigateTo("/buddy_registration");
+};
+
+const goToRegis2 = () => {
+    navigateTo("/shelter_registration");
+};
 </script>
 
 <style scoped>
