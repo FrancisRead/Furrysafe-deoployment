@@ -105,7 +105,7 @@ app.use(compression());
 // Use CORS middleware for cross-origin requests
 app.use(cors({
   origin: (origin, callback) => {
-    const allowedOrigins = ['https://furrysafe-capstone.web.app', 'http://localhost:8080', 'https://capstone-furrysafe-deployment.onrender.com']; // Add any other URLs here
+    const allowedOrigins = ['https://furrysafe-project.web.app', 'http://localhost:8080', 'https://capstone-furrysafe-deployment.onrender.com']; // Add any other URLs here
     if (allowedOrigins.includes(origin) || !origin) { // Allow no origin for server-to-server requests
       callback(null, true);
     } else {
