@@ -117,7 +117,7 @@ const getLocation = () => {
 // Fetch shelter data and add markers to the map
 const fetchShelters = async () => {
   try {
-      const response = await fetch('http://localhost:5000/shelters');
+      const response = await fetch('https://capstone-furry-safe-vl9o.onrender.com/shelters');
       const data = await response.json();
 
       if (Array.isArray(data)) {

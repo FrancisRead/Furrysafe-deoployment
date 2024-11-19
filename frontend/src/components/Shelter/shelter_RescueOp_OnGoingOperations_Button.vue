@@ -111,7 +111,7 @@ let _shelter_id = localStorage.getItem('c_id')
 async function retrieveReports() {
     try {
         console.log("retrieveReports =)")
-        const response = await axios.post("http://localhost:5000/getongoingoperations", {
+        const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/getongoingoperations", {
             _shelter_id: _shelter_id,
             _status: 'In progress' // Nov12 'Pending' change to 'In progress' 
         });
@@ -132,7 +132,7 @@ const cancelRescue = async () => { //rescued => yes
     }
     console.debug('Cancelling rescue for postId:', props.postId); // Debug line
     try {
-        const response = await axios.post('http://localhost:5000/cancelOperation', {
+        const response = await axios.post('https://capstone-furry-safe-vl9o.onrender.com/cancelOperation', {
             _post_id: props.postId,
             _shelter_id: localStorage.getItem('c_id')
         });

@@ -85,7 +85,7 @@ onBeforeUnmount(() => {
 // Function to fetch shelters data from the backend
 const fetchShelters = async () => {
   try {
-    const response = await fetch('http://localhost:5000/shelters');
+    const response = await fetch('https://capstone-furry-safe-vl9o.onrender.com/shelters');
     if (!response.ok) throw new Error('Network response was not ok');
     const data = await response.json();
     console.log("Fetched shelter data:", data);

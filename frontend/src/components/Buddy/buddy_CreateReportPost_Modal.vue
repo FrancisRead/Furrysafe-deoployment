@@ -121,7 +121,7 @@ function handleData(data) {
 }
 async function getCategory() {
   try {
-    const response = await axios.get("http://localhost:5000/load-category")
+    const response = await axios.get("https://capstone-furry-safe-vl9o.onrender.com/load-category")
     category.value = response.data
   }
   catch (err) {
@@ -135,7 +135,7 @@ const capitalizeWords = (str) => {
 };
 async function retrieveProfile() {
   try {
-    const response = await axios.post("http://localhost:5000/profile", {
+    const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/profile", {
       _userid: id,
     });
     if (response.data && response.data.length > 0) {
@@ -164,7 +164,7 @@ async function retrieveProfile() {
 }
 async function saveReport(formData) { //create function
   try {
-    const response = await axios.post("http://localhost:5000/insertbuddyreport",
+    const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/insertbuddyreport",
       formData,
       {
         headers: { 'Content-Type': 'multipart/form-data' } // Correct header placement
@@ -192,7 +192,7 @@ async function saveReport(formData) { //create function
 const reportcategory = ref([]);
 async function getReportCategory() {
   try {
-    const response = await axios.get("http://localhost:5000/getreportcategory")
+    const response = await axios.get("https://capstone-furry-safe-vl9o.onrender.com/getreportcategory")
     const filteredCategories = response.data.filter(item => item.post_name !== 'Adoption');
     reportcategory.value = filteredCategories;
   }
@@ -248,7 +248,7 @@ const user_avatar = ref({})
 async function getUserDetails() {
   try {
     const _id = localStorage.getItem('u_id')
-    const response = await axios.post("http://localhost:5000/getbuddydetails",
+    const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/getbuddydetails",
       {
         _id: _id
       }

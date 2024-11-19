@@ -141,7 +141,7 @@ io.on("connection", socket => {
 
   socket.on('join-chat', room => {
     socket.join(room);
-  });
+  })
 });
 
 // Start the server

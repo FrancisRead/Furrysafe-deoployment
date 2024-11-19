@@ -112,7 +112,7 @@ const handleAction = (action) => {
 const confirmAction = async () => { //upon click
 
     try {
-        const response = await axios.post('http://localhost:5000/accept-report', {
+        const response = await axios.post('https://capstone-furry-safe-vl9o.onrender.com/accept-report', {
             post_id: props.postId,
             shelter_id: localStorage.getItem('c_id')
         });
@@ -149,7 +149,7 @@ const confirmAction = async () => { //upon click
 
 const cancelRescue = async () => { //rescued => yes
     try {
-        const response = await axios.post('http://localhost:5000/cancelOperation', {
+        const response = await axios.post('https://capstone-furry-safe-vl9o.onrender.com/cancelOperation', {
             _post_id: props.postId,
             _shelter_id: localStorage.getItem('c_id')
         });
@@ -169,7 +169,7 @@ const userFullName = ref(null)
 const currentUser_id = localStorage.getItem('u_id')
 const getUserFullName = async () => {
     try {
-        const response = await axios.post("http://localhost:5000/getfullname", {
+        const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/getfullname", {
             id: currentUser_id,
         });
 
@@ -218,7 +218,7 @@ async function retrieveMessage() {
 const selectedChat_id = ref(null)
 const retrieveChatId = async () => {
     try {
-        const response = await axios.post("http://localhost:5000/newchat", {
+        const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/newchat", {
             senderid: currentUser_id,
             receiverid: receiverId.value
         });
@@ -241,7 +241,7 @@ async function sendMessagetoUser(thisformData) {
 
     // return
     try {
-        const response = await axios.post("http://localhost:5000/sendmessage", thisformData, {
+        const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/sendmessage", thisformData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

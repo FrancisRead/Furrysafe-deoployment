@@ -59,7 +59,7 @@ socket.on('receive-message', (messageData) => {
 // Fetch all conversations
 const fetchInbox = async () => {
   try {
-    const response = await axios.post("http://localhost:5000/loadinbox", {
+    const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/loadinbox", {
       id: user_id.value,
       // Optionally, include other parameters if needed
     });
@@ -135,7 +135,7 @@ const selectConversation = async (conversation) => {
 
   try {
     // Fetch messages for the selected chat
-    const response = await axios.post("http://localhost:5000/loadinbox", {
+    const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/loadinbox", {
       id: user_id.value,
       chat_id: selectedChat_id.value
     });
@@ -172,7 +172,7 @@ const selectConversation = async (conversation) => {
 //check here
 async function sendMessage(thisformData) {
   try {
-    const response = await axios.post("http://localhost:5000/sendmessage", thisformData, {
+    const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/sendmessage", thisformData, {
       headers: { 'Content-Type': 'multipart/form-data' }
     });
 
@@ -212,7 +212,7 @@ async function sendMessage(thisformData) {
 
 const createNewMessage = async () => {
   try {
-    const response = await axios.post("http://localhost:5000/newchat", {
+    const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/newchat", {
       senderid: user_id.value,
       receiverid: receiverId.value
     });
@@ -236,7 +236,7 @@ const fetchData = async (query) => {
     return;
   }
   try {
-    const response = await axios.post("http://localhost:5000/search", {
+    const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/search", {
       value: searchValue.value
     });
     searchResults.value = response.data;
@@ -276,7 +276,7 @@ const scrollToBottom = async () => {
 
 const getUserFullName = async () => {
   try {
-    const response = await axios.post("http://localhost:5000/getfullname", {
+    const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/getfullname", {
       id: user_id.value,
     });
 

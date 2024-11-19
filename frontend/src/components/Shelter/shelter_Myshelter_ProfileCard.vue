@@ -36,7 +36,7 @@ const profileUrl = ref(null); // Holds the image URL
 
 async function loadProfileCard() {
     try {
-        const response = await axios.post("http://localhost:5000/edit_shelterprofile", {
+        const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/edit_shelterprofile", {
             shelterid: id
         });
 
@@ -51,7 +51,7 @@ async function loadProfileCard() {
 
             try {
                 let url = profiles.value[0]?.profileurl;
-                const imgResponse = await axios.post("http://localhost:5000/image", {
+                const imgResponse = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/image", {
                     profileUrl: url // Assuming you're using shelterid to fetch the image
                 });
                 console.log(imgResponse) 

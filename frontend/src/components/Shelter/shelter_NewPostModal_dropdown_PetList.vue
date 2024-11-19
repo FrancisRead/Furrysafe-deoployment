@@ -26,7 +26,7 @@ const capitalizeWords = (str) => {
 
 async function retrieveProfile() {
   try {
-    const response = await axios.post("http://localhost:5000/profile", {
+    const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/profile", {
       _userid: id,
     });
     if (response.data && response.data.length > 0) {

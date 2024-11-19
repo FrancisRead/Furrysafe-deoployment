@@ -41,7 +41,7 @@ const avatar = {
 async function logout() {
     try {
         //req to clear cookies 
-        const response = await axios.post("http://localhost:5000/logout")
+        const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/logout")
 
         console.log(response)
         // return
@@ -68,7 +68,7 @@ const user_avatar = ref({})
 async function getUserDetails() {
     try {
         const _id = localStorage.getItem('u_id')
-        const response = await axios.post("http://localhost:5000/getbuddydetails",
+        const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/getbuddydetails",
             {
                 _id: _id
             }

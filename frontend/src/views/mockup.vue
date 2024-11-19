@@ -91,7 +91,7 @@ const userdetails = ref({
 // Function to fetch admin data
 async function getAdmin() {
     try {
-        const response = await axios.get("http://localhost:5000/get-position");
+        const response = await axios.get("https://capstone-furry-safe-vl9o.onrender.com/get-position");
         role.value = response.data;
     } catch (err) {
         console.log("error", err);
@@ -114,7 +114,7 @@ async function registerAdmin() {
             return; // Stop execution if there are empty fields
         }
 
-        const response = await axios.post("http://localhost:5000/add-admin-account", {
+        const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/add-admin-account", {
             firstname: fname,
             lastname: lname,
             username: uname,

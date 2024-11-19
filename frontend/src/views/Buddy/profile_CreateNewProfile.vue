@@ -218,7 +218,7 @@ function handleFileChange(event) {
 }
 async function loadPetCategory() { //type from db dog cats //pet type/category rendering
     try {
-        const response = await axios.get("http://localhost:5000/load-category")
+        const response = await axios.get("https://capstone-furry-safe-vl9o.onrender.com/load-category")
         console.log(response)
         if (response.data) {
             animalCategory.value = response.data
@@ -230,7 +230,7 @@ async function loadPetCategory() { //type from db dog cats //pet type/category r
 }
 async function loadPetBreed() { //breed from db //load pet breed when pet type (animalCategory) is selected
     try {
-        const response = await axios.post("http://localhost:5000/pet_breed",
+        const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/pet_breed",
             {
                 _category_id: selectedAnimalType.value
             }
@@ -246,7 +246,7 @@ async function loadPetBreed() { //breed from db //load pet breed when pet type (
 //load vaccines when pet type (animalCategory) is selected
 async function loadVaccineOptions() { //ovi nmn ;-; load vaccine
     try {
-        const response = await axios.post("http://localhost:5000/vaccine",
+        const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/vaccine",
             {
                 _category_id: selectedAnimalType.value
             }
@@ -263,7 +263,7 @@ async function loadVaccineOptions() { //ovi nmn ;-; load vaccine
 async function loadSterilization() { //kwaon tung sa db tas e load ;-; ovi
     try {
         console.log(selectedGender.value)
-        const response = await axios.post("http://localhost:5000/sterilization",
+        const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/sterilization",
             {
                 _gender: selectedGender.value
             }
@@ -322,7 +322,7 @@ function categorizedSterilization() { //categorize sterilization from load steri
 }
 async function loadPetStatus() { // load pet status... tf do u want 
     try {
-        const response = await axios.get("http://localhost:5000/pet_status")
+        const response = await axios.get("https://capstone-furry-safe-vl9o.onrender.com/pet_status")
         if (response) {
             status.value = response.data
         }
@@ -402,7 +402,7 @@ async function savePetProfile(formData) { //Save pet profile, pet profile photo,
     console.log("extra photos", files.value)
 
     try {
-        const response = await axios.post("http://localhost:5000/save_pet_profile",
+        const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/save_pet_profile",
             formData,
             {
                 headers: { 'Content-Type': 'multipart/form-data' } // Correct header placement

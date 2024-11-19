@@ -33,7 +33,7 @@ let events = ref([])
 let photos = ref([])
 async function retrieveReports() {
     try {
-        const response = await axios.post("http://localhost:5000/getevents", {
+        const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/getevents", {
             _shelter_id: _shelter_id
         });
 

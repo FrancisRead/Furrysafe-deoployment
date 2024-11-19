@@ -62,7 +62,7 @@ async function loadProfileDetails() {
   const id = localStorage.getItem('c_id');
 
   try {
-    const response = await axios.post("http://localhost:5000/edit_shelterprofile", {
+    const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/edit_shelterprofile", {
       shelterid: id
     });
 

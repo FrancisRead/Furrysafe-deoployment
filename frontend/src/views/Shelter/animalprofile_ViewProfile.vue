@@ -25,7 +25,7 @@ const petDetails = ref({})
 
 async function loadPetProfiles() {
     try {
-        const response = await axios.post("http://localhost:5000/profile", {
+        const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/profile", {
             _userid: id,
             _petid: petid
         });

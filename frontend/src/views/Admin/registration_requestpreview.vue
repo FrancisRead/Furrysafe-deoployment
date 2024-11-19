@@ -12,7 +12,7 @@
     // Function to fetch request details
     async function getRequestDetails(id) {
     try {
-        const response = await axios.get(`http://localhost:5000/request_preview/${id}`);
+        const response = await axios.get(`https://capstone-furry-safe-vl9o.onrender.com/request_preview/${id}`);
         request.value = response.data; // Store fetched data
         console.log(response.data)
 
@@ -30,7 +30,7 @@
         try{
             const admin_id = localStorage.getItem('c_id')
             // console.log("function", id, req_response, req_status, admin_id)
-            const response = await axios.post("http://localhost:5000/response", 
+            const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/response", 
                 {
                     id: id,
                     req_status: req_status,

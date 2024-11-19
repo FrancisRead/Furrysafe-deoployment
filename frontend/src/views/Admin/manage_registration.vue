@@ -101,7 +101,7 @@
 
     async function getRequests(){ //displays all the pending
         try{
-            const response = await axios.post("http://localhost:5000/registration", 
+            const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/registration", 
                 {
                     mode: 'Pending'
                 }
@@ -122,7 +122,7 @@
         try{
             const admin_id = localStorage.getItem('c_id')
             // console.log("function", id, req_response, req_status, admin_id)
-            const response = await axios.post("http://localhost:5000/response", 
+            const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/response", 
                 {
                     id: id,
                     req_status: req_status,

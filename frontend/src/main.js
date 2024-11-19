@@ -4,6 +4,7 @@ import router from './router'; // Import your router
 import globalMixin from '@/router/globalMixin'; // Import your global mixin
 import './assets/css/style.css'; // Import your CSS styles
 
+
 // Create the Vue application instance
 const app = createApp(App);
 

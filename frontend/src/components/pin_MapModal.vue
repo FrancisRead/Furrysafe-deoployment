@@ -97,7 +97,7 @@ const closeModal = (event) => {
 async function savePinnedAddress() {
     try {
         console.log(address.value, "address")
-        const response = await axios.post("http://localhost:5000/update-shelter-details", {
+        const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/update-shelter-details", {
             address: address.value,
             latitude: lat.value,
             longitude: lng.value,

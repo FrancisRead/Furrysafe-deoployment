@@ -21,7 +21,7 @@ const stats = ref([])
 
 async function retrieveStatus() {
     try {
-        const response = await axios.get("http://localhost:5000/status")
+        const response = await axios.get("https://capstone-furry-safe-vl9o.onrender.com/status")
 
         response.data.forEach(item => {
             stats.value.push({

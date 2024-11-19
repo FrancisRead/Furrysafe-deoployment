@@ -65,7 +65,7 @@ function clearImage() {
 async function getUserDetails() {
     try {
         const _id = localStorage.getItem('u_id')
-        const response = await axios.post("http://localhost:5000/getbuddydetails",
+        const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/getbuddydetails",
             {
                 _id: _id
             }
@@ -146,7 +146,7 @@ async function saveProfile() {
 
     try {
         console.log("in try")
-        const response = await axios.post("http://localhost:5000/setbuddydetails",
+        const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/setbuddydetails",
             formData,
             {
                 headers: { 'Content-Type': 'multipart/form-data' } // Correct header placement

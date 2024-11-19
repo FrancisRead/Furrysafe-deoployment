@@ -203,7 +203,7 @@ export default {
         },
         async setUser() {
             try {
-                const response = await axios.post("http://localhost:5000/buddy-registration", this.formData,
+                const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/buddy-registration", this.formData,
                     {
                         'Content-Type': 'multipart/form-data'
                     }

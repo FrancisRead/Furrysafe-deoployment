@@ -22,7 +22,7 @@
                                 placeholder="Example@mail.com" />
                         </div>
                         <div class="pb-3" v-if="!isSignUp">
-                            <passwordunhide />
+                            <passwordunhide @password="handlepassword"/>
                         </div>
 
                         <div class="flex items-center justify-between mb-6" v-if="!isSignUp">
@@ -79,12 +79,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from "axios";
 import passwordunhide from "../components/passwordHide.vue";
 
-const API_BASE_URL = 'https://capstone-furrysafe-deployment.onrender.com';
+const API_BASE_URL = 'https://capstone-furry-safe-vl9o.onrender.com';
 const router = useRouter();
 
 console.log("login function:)");
@@ -115,7 +115,13 @@ const navigateTo = (path) => {
     router.push(path);
 };
 
+function handlepassword(password){
+    loginPassword.value = password
+}
+
 const handleLogin = async () => {
+    console.log("password in onmounted", loginPassword.value)
+
     try {
         await getUser();
     } catch (err) {
@@ -127,8 +133,8 @@ const getUser = async () => {
     try {
         console.log("login")
         const response = await axios.post(`${API_BASE_URL}/login`, {
-            email: userEmail.value,
-            password: userPassword.value
+            email: loginEmail.value,
+            password: loginPassword.value
         }, {
             withCredentials: true // Include cookies if needed
         });

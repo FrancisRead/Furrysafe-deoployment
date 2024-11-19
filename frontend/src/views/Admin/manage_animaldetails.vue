@@ -101,7 +101,7 @@
 
     async function getCategory(){
         try{
-            const response = await axios.get("http://localhost:5000/load-category")
+            const response = await axios.get("https://capstone-furry-safe-vl9o.onrender.com/load-category")
             category.value = response.data
         }
         catch(err){
@@ -119,7 +119,7 @@
                 return
             }
             else{
-                const response = await axios.post("http://localhost:5000/add-breed", 
+                const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/add-breed", 
                     {
                         category: this.selectedCategory,
                         breed: breedInput,
@@ -142,7 +142,7 @@
                 return
             }
             else{
-                const response = await axios.post("http://localhost:5000/add-pet-category", {
+                const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/add-pet-category", {
                     category: animalType
                 })
             }
@@ -163,7 +163,7 @@
                 return
             }
             else{
-                const response = await axios.post("http://localhost:5000/add-pet-vaccine", {
+                const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/add-pet-vaccine", {
                     category: this.selectedCategory,
                     vaccine: vaccinename
                 })

@@ -77,7 +77,7 @@ function removeLink(index) {
 // Retrieve data from the backend based on localStorage c_id 
 async function get_Shelter_Details() {
     try {
-        const response = await axios.post("http://localhost:5000/edit_shelterprofile", {
+        const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/edit_shelterprofile", {
             shelterid: id
         });
 
@@ -148,7 +148,7 @@ async function saveProfile() {
     }
 
     try {
-        const response = await axios.post("http://localhost:5000/save_shelterprofile",
+        const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/save_shelterprofile",
             formData,
             {
                 headers: { 'Content-Type': 'multipart/form-data' } // Correct header placement

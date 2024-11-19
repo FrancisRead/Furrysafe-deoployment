@@ -1,20 +1,24 @@
-<script>
-export default {
-  data() {
-    return {
-      password: '',
-      passwordType: 'password',
+<script setup>
+import { ref, watch} from 'vue';
 
-      eye: 'https://img.icons8.com/external-flatart-icons-outline-flatarticons/64/4D4D4D/external-eye-basic-ui-elements-flatart-icons-outline-flatarticons.png',
-      eyeHide: 'https://img.icons8.com/external-flatart-icons-outline-flatarticons/64/4D4D4D/external-eye-devices-flatart-icons-outline-flatarticons.png',
-    };
-  },
-  methods: {
-    togglePasswordVisibility() {
-      this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
-    },
-  },
+const emit = defineEmits();
+
+const password = ref('');
+const passwordType = ref('password');
+
+const eye = 'https://img.icons8.com/external-flatart-icons-outline-flatarticons/64/4D4D4D/external-eye-basic-ui-elements-flatart-icons-outline-flatarticons.png';
+const eyeHide = 'https://img.icons8.com/external-flatart-icons-outline-flatarticons/64/4D4D4D/external-eye-devices-flatart-icons-outline-flatart-icons.png';
+
+const togglePasswordVisibility = () => {
+  passwordType.value = passwordType.value === 'password' ? 'text' : 'password';
 };
+
+watch(() => {
+  if (password.value) {
+    // console.log("password here" , password.value)
+    emit('password', password.value)
+  }
+});
 </script>
 
 <template>

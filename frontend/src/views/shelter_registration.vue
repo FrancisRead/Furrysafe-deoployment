@@ -249,7 +249,7 @@ export default {
         async setUser() {
             console.log("Preparing to send request...");
             try {
-                const response = await axios.post("http://localhost:5000/shelter-registration", this.formData, {
+                const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/shelter-registration", this.formData, {
                     'Content-Type': 'multipart/form-data'
                 });
                 this.items = response.data;

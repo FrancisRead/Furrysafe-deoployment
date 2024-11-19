@@ -27,7 +27,7 @@ function categorizedRequests() {
 
 async function getRequests() {
     try {
-        const response = await axios.post("http://localhost:5000/registration");
+        const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/registration");
         requests.value = response.data;
         if (!response.data || response.data.length === 0) {
             console.log("Request not found");

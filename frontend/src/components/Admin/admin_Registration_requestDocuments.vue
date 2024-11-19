@@ -104,7 +104,7 @@ export default {
         async retrieveFiles(){
             try{
                 let id = this.requestDetail.shelterid
-                const response = await axios.get(`http://localhost:5000/request_preview/${id}/image`, 
+                const response = await axios.get(`https://capstone-furry-safe-vl9o.onrender.com/request_preview/${id}/image`, 
                     {
                         params: {
                             document_1: this.document1,

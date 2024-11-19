@@ -173,7 +173,7 @@
         try{
             //req to clear cookies 
             console.log("email", this.userEmail)
-            const response = await axios.post("http://localhost:5000/logout");
+            const response = await axios.post("https://capstone-furry-safe-vl9o.onrender.com/logout");
 
                  console.log(response)
                 // return
